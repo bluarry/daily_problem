@@ -26,11 +26,23 @@ int main()
 
 /* 你的代码将被嵌在这里 */
 
+//没有头结点
 List Reverse( List L )
 {
-	List now;
-	
-
-
-	
+	List now,pre,nex;
+	if(L==NULL) return L;
+	if(L->Next==NULL) return L;
+	pre=L;
+	now=pre->Next;
+	nex=now;
+	while(now!=NULL)
+	{
+		nex=nex->Next;
+		now->Next=pre;
+		pre=now;
+		now=nex;
+	}
+	L->Next=NULL;
+	L=pre;
+	return L;
 }
