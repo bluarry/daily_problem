@@ -1,8 +1,20 @@
 #include <iostream>
+#include <algorithm>
 #include <stdio.h>
 #include <cstring>
 using namespace std;
 
+typedef struct _node  
+{  
+    int  id;  
+    char str[12];  
+}node;  
+
+int cmp(node a, node b)  
+{  
+    return a.id < b.id;  
+}    
+node data[101];
 char map[11][11];
 int head[11][11];
 int main()
@@ -29,17 +41,6 @@ int main()
 		else
 		printf("puzzle #%d:\n",++T);
 		printf("Across\n");
-/*
-		for(int i=1;i<=r;i++)
-			for(int j=1;j<=c;j++)
-			{
-				if(j==c) printf("%c\n", map[i][j]);
-				else
-					printf("%c ", map[i][j]);
-			}
-
-
-*/
 		int k=0,i,j;
 		for(i=1;i<=r;i++)
 		{
@@ -58,34 +59,51 @@ int main()
 			}
 		}
 
-		for(i=1;i<=r;i++)
-			for(j=1;j<=c;j++)
+
+
+/*
+    printf("Down\n");  
+        int count = 0;  
+        for (int i = 0; i < column; ++ i) {  
+            int move = 0;  
+            while (move < row) {  
+                if (size[move][i]) {  
+                    data[count].id = size[move][i];  
+                    int save = 0;  
+                    while (move < row && maps[move][i] != '*')  
+                        data[count].str[save ++] = maps[move ++][i];  
+                    data[count ++].str[save ++] = 0;  
+                }else move ++;  
+            }  
+        }  
+        sort(data, data+count, cmp);  
+        for (int i = 0; i < count; ++ i)  
+            printf("%3d.%s\n",data[i].id, data[i].str);  
+*/
+        printf("Down\n"); 
+        int count=0;
+		for(i=1;i<=c;i++)
 			{
-
-
-				
+				int k=1;
+					while(k<=r)
+					{	
+						if(head[k][i])
+						{
+							data[count].id=head[k][i];
+							int s=0;
+							while(k<=r && map[k][i] != '*')
+								data[count].str[s++]=map[k++][i];
+							data[count++].str[s++]=0;
+						}
+						else
+							k++;
+					}
 			}
+			 sort(data, data+count, cmp);  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			for (int i = 0; i < count; ++ i)  
+            printf("%3d.%s\n",data[i].id, data[i].str); 
 
 	}
-
-
 	return 0;
 }
