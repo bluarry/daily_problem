@@ -7,7 +7,7 @@ const int maxn=10000;
 
 int main()
 {
-	freopen("D:\\1.in","r",stdin);
+	//freopen("D:\\1.in","r",stdin);
 	int n,q,x,a[maxn],kase=0;
 	while(cin >>n>>q)
 	{
