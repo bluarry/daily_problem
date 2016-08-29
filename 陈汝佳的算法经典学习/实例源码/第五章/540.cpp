@@ -3,6 +3,7 @@
 #include <queue>
 #include <algorithm>
 #include <map>
+#include <cstdlib>
 using namespace std;
 
 const int maxn=1000+10;
@@ -12,7 +13,7 @@ int main()
 {
 	cin.tie(0);
 	ios_base::sync_with_stdio(false);
-//	freopen("D:\\1.in","r",stdin);
+	freopen("D:\\1.in","r",stdin);
 	int t,kcase=0;
 	while(cin >> t)
 	{
