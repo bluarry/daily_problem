@@ -25,6 +25,9 @@ int ID(Set x)
 int main()
 {
 	//freopen("D:\\1.in","r",stdin);
+	cin.tie(0);
+	ios_base::sync_with_stdio(false);
+
 	stack<int> s;
 	int T;
 	cin >> T;
