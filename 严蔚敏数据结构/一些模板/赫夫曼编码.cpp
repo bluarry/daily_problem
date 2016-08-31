@@ -18,8 +18,8 @@ int min_min(HuffmanTree t,int i){
 	unsigned k=maxn;
 	for(j=1;j<=i;j++)
 		if(t[j].weight < k && t[j].parent == 0)
-			k=t[j].parent,m=j;
-	t[m].parent=1;
+			k=t[j].weight,m=j;
+	t[m].parent=1;  //这个是重点，因为，第二次调用是找第二小，所以第一小置为1.(由于这些结点并未加入到赫夫曼树中，所以更改之后无影响)
 	return m;
 }
 void select(HuffmanTree t,int i,int& s1,int & s2){
@@ -71,11 +71,10 @@ void Huffmancoding(HuffmanTree& HT,Huffmancode& HC,int *w,int n){
 	char *cd=(char *)malloc(sizeof(char)*n);
 	cd[n-1]='\0';
 	int start;
-	unsigned c;
+	unsigned c,f;
 	for(i=1; i<=n;i++ )
 	{
 		start=n-1;
-		unsigned f;
 		for(c=i,f=HT[i].parent;f!=0;c=f,f=HT[f].parent)
 			if(HT[f].lchild==c)
 				cd[--start]='0';
