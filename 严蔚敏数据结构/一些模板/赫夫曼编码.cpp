@@ -33,10 +33,6 @@ void select(HuffmanTree t,int i,int& s1,int & s2){
 	}
 }
 
-
-
-
-
 void Huffmancoding(HuffmanTree& HT,Huffmancode& HC,int *w,int n){
 	int i,s1,s2;
 	HuffmanTree p;
