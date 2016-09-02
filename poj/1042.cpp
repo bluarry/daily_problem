@@ -73,7 +73,7 @@ void solve(){
 }
 int main()
 {
-	freopen("D:\\1.in","r",stdin);
+	//freopen("D:\\1.in","r",stdin);
 	while(cin >> n){
 		if(!n) break;
 		cin >> h;
