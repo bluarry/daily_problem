@@ -12,16 +12,16 @@ using namespace std;
 typedef int Status;
 
 typedef struct{
-	unsigned int weight; // ´æÈ¨ÖØ
-	char pha;		//´æ×Ö·û
+	unsigned int weight; // å­˜æƒé‡
+	char pha;		//å­˜å­—ç¬¦
 	int parent,lchild,rchild;
 }HTnode,*HuffmanTree;
 
-int m; //¼ÇÂ¼Ò»¿ÃÊ÷ÀïµÄ½Úµã×ÜÊı
+int m; //è®°å½•ä¸€æ£µæ ‘é‡Œçš„èŠ‚ç‚¹æ€»æ•°
 
 typedef char * * Huffmancode;
 
-Huffmancode HC; //ÔÚhcÖĞ±£´æ±àÂë
+Huffmancode HC; //åœ¨hcä¸­ä¿å­˜ç¼–ç 
 
 
 int min_min(HuffmanTree t,int i){
@@ -30,7 +30,7 @@ int min_min(HuffmanTree t,int i){
 	for(j=1;j<=i;j++)
 		if(t[j].weight < k && t[j].parent == 0)
 			k=t[j].weight,m=j;
-	t[m].parent=1;  //Õâ¸öÊÇÖØµã£¬ÒòÎª£¬µÚ¶ş´Îµ÷ÓÃÊÇÕÒµÚ¶şĞ¡£¬ËùÒÔµÚÒ»Ğ¡ÖÃÎª1.(ÓÉÓÚÕâĞ©½áµã²¢Î´¼ÓÈëµ½ºÕ·òÂüÊ÷ÖĞ£¬ËùÒÔ¸ü¸ÄÖ®ºóÎŞÓ°Ïì)
+	t[m].parent=1;  //è¿™ä¸ªæ˜¯é‡ç‚¹ï¼Œå› ä¸ºï¼Œç¬¬äºŒæ¬¡è°ƒç”¨æ˜¯æ‰¾ç¬¬äºŒå°ï¼Œæ‰€ä»¥ç¬¬ä¸€å°ç½®ä¸º1.(ç”±äºè¿™äº›ç»“ç‚¹å¹¶æœªåŠ å…¥åˆ°èµ«å¤«æ›¼æ ‘ä¸­ï¼Œæ‰€ä»¥æ›´æ”¹ä¹‹åæ— å½±å“)
 	return m;
 }
 void select(HuffmanTree t,int i,int& s1,int & s2){
@@ -44,13 +44,13 @@ void select(HuffmanTree t,int i,int& s1,int & s2){
 	}
 }
 
-//³õÊ¼»¯¿ªÊ¼ 
+//åˆå§‹åŒ–å¼€å§‹ 
 Status init(HuffmanTree& HT,int n){
 	if(n<=1){
-		cout << "¾¯¸æ:×Ö·ûÊıÌ«ÉÙ£¡"<<endl;
+		cout << "è­¦å‘Š:å­—ç¬¦æ•°å¤ªå°‘ï¼"<<endl;
 		return ERROR;
 	}
-	cout << "ÇëÒÀ´ÎÊäÈë "<< n << " ¸ö×Ö·û : "<<endl;
+	cout << "è¯·ä¾æ¬¡è¾“å…¥ "<< n << " ä¸ªå­—ç¬¦ : "<<endl;
 	HuffmanTree p;
 	m=2*n-1;int i;
 	HT=(HuffmanTree)malloc((m+1)*sizeof(HTnode));
@@ -61,12 +61,12 @@ Status init(HuffmanTree& HT,int n){
 	}
 	
 	cout << endl;
-	cout << "ÇëÒÀ´ÎÊäÈë "<< n << " ¸öÈ¨Öµ(ÕûÊı) : "<< endl;
+	cout << "è¯·ä¾æ¬¡è¾“å…¥ "<< n << " ä¸ªæƒå€¼(æ•´æ•°) : "<< endl;
 	for(i=1,p=HT+1;i<=n;i++,p++)
 		cin >> (*p).weight;
 	for(;i<=m;i++,p++)
 		{(*p).pha=' ';(*p).parent=0; (*p).lchild=0,(*p).rchild=0;}
-	//½¨Á¢ºÕ·òÂüÊ÷
+	//å»ºç«‹èµ«å¤«æ›¼æ ‘
 	int s1,s2;
 	for(i=n+1;i<=m;i++)
 	{
@@ -94,17 +94,17 @@ Status init(HuffmanTree& HT,int n){
 	cout << endl;
 	return OK;
 }
-//************³õÊ¼»¯Íê±Ï 
+//************åˆå§‹åŒ–å®Œæ¯• 
 
 
 void menu(){
-	cout << "\t\t******************²Ëµ¥*********************"<<endl;
-	cout << "\t\t    I.³õÊ¼»¯           E.±àÂë             "<<endl;
-	cout << "\t\t    D.ÒëÂë             P.Ó¡´úÂëÎÄ¼ş       "<<endl;
-	cout << "\t\t         T.Ó¡¹ş·òÂü±àÂë                   "<<endl;
-	cout << "\t\t          Q.ÍË³ö                          "<<endl;
+	cout << "\t\t******************èœå•*********************"<<endl;
+	cout << "\t\t    I.åˆå§‹åŒ–           E.ç¼–ç              "<<endl;
+	cout << "\t\t    D.è¯‘ç              P.å°ä»£ç æ–‡ä»¶       "<<endl;
+	cout << "\t\t         T.å°å“ˆå¤«æ›¼ç¼–ç                    "<<endl;
+	cout << "\t\t          Q.é€€å‡º                          "<<endl;
 	cout << "\t\t******************end**********************"<<endl;
-	cout << "\t\tÇëÊäÈëÄãµÄÑ¡Ôñ £º";
+	cout << "\t\tè¯·è¾“å…¥ä½ çš„é€‰æ‹© ï¼š";
 }
 
 Status readhfmTree(HuffmanTree& HT,int &n){
@@ -126,9 +126,9 @@ Status readhfmTree(HuffmanTree& HT,int &n){
 
 	return ERROR;
 }
-//¶ÔÎÄ¼şÖĞµÄÃ¿Ò»¸ö×Ö·û±àÂë£¬´æÈëÁíÒ»¸öÎÄ¼şÖĞ
+//å¯¹æ–‡ä»¶ä¸­çš„æ¯ä¸€ä¸ªå­—ç¬¦ç¼–ç ï¼Œå­˜å…¥å¦ä¸€ä¸ªæ–‡ä»¶ä¸­
 Status huffmancoding(HuffmanTree HT,int n){
-		//Ô¤´¦Àí±àÂë 
+		//é¢„å¤„ç†ç¼–ç  
 	int i;
 	HC=(Huffmancode)malloc((n+1)*sizeof(char *));
 	char *cd=(char *)malloc(sizeof(char)*n);
@@ -147,15 +147,15 @@ Status huffmancoding(HuffmanTree HT,int n){
 		strcpy(HC[i],&cd[start]);
 	}
 	free(cd);
-	//ÓëÒª±àÂëµÄÎÄ¼ş½øĞĞ±È¶Ô
+	//ä¸è¦ç¼–ç çš„æ–‡ä»¶è¿›è¡Œæ¯”å¯¹
 	ifstream in_1("ToBeTran");
 	if(!in_1.is_open()){
-		cout << "ÎÄ¼ş´ò¿ªÊ§°Ü!";
+		cout << "æ–‡ä»¶æ‰“å¼€å¤±è´¥!";
 			return ERROR;
 	}
 	ofstream out_1("CodeFile");
 	if(!out_1.is_open()){
-		cout << "ÎÄ¼ş´ò¿ªÊ§°Ü!";
+		cout << "æ–‡ä»¶æ‰“å¼€å¤±è´¥!";
 		return ERROR;
 	}
 
@@ -174,18 +174,18 @@ Status huffmancoding(HuffmanTree HT,int n){
 	in_1.close();
 	out_1.close();
 }
-//½«CodefileÖĞµÄÎÄ¼şÒëÂë£¬±£´æµ½TextFile
+//å°†Codefileä¸­çš„æ–‡ä»¶è¯‘ç ï¼Œä¿å­˜åˆ°TextFile
 Status Traslatecode(HuffmanTree HT,int n){
 	ifstream icin("CodeFile");
 	if(!icin.is_open())
 	{
-		cout << "±àÂëÎÄ¼ş²»´æÔÚ£¡"<< endl;
+		cout << "ç¼–ç æ–‡ä»¶ä¸å­˜åœ¨ï¼"<< endl;
 		return ERROR;
 	}
 	ofstream icout("TextFile");
 	if(!icout.is_open())
 	{
-		cout << "´ò¿ªÎÄ¼şÊ§°Ü"<< endl;
+		cout << "æ‰“å¼€æ–‡ä»¶å¤±è´¥"<< endl;
 		return ERROR;
 	}
 
@@ -222,13 +222,13 @@ Status printfile(){
 	ifstream icin("CodeFile");
 	if(!icin.is_open())
 	{
-		cout << "±àÂëÎÄ¼ş²»´æÔÚ£¡"<< endl;
+		cout << "ç¼–ç æ–‡ä»¶ä¸å­˜åœ¨ï¼"<< endl;
 		return ERROR;
 	}
 	ofstream icout("CodePrin");
 	if(!icout.is_open())
 	{
-		cout << "´ò¿ªÎÄ¼şÊ§°Ü"<< endl;
+		cout << "æ‰“å¼€æ–‡ä»¶å¤±è´¥"<< endl;
 		return ERROR;
 	}
 	char x;
@@ -250,7 +250,7 @@ Status printfile(){
 	return OK;
 }
 
-//ÓÃ°¼Èë±í·¨´òÓ¡Ê÷
+//ç”¨å‡¹å…¥è¡¨æ³•æ‰“å°æ ‘
 void printHelp(HuffmanTree HT,int x,string ss,ofstream& icout)   
 {  
     if( x==0 )     
@@ -269,7 +269,7 @@ Status Tree_printing(HuffmanTree HT,int n){
 	}
 	ofstream icout("TreePrint");
 
-  //°¼Èë±í·¨´òÓ¡
+  //å‡¹å…¥è¡¨æ³•æ‰“å°
     string ss="";    
     printHelp(HT,m,ss,icout);   
  
@@ -289,47 +289,47 @@ int main(){
 	while(c!='Q'){
 		if(c=='I'){
 			system("cls");
-			cout << "ÇëÊäÈë×Ö·ûÊı : "<< endl; 
+			cout << "è¯·è¾“å…¥å­—ç¬¦æ•° : "<< endl; 
 			cin >> n;
 			if(init(HT,n)== OK)
-				cout << "³õÊ¼»¯³É¹¦!" << endl;
+				cout << "åˆå§‹åŒ–æˆåŠŸ!" << endl;
 		}
 		else if(c=='E'){
 			system("cls");
 			if(HT==NULL)
 			{
 				if( readhfmTree(HT,n)){
-					cout << "¶ÁÈ¡¹ş·òÂüÊ÷³É¹¦" << endl;
+					cout << "è¯»å–å“ˆå¤«æ›¼æ ‘æˆåŠŸ" << endl;
 					cout<< endl;
 					if( huffmancoding(HT,n) ){
-						cout << "±àÂë³É¹¦" << endl;
+						cout << "ç¼–ç æˆåŠŸ" << endl;
 					}
 					else
-						cout << "±àÂëÊ§°Ü" << endl; 
+						cout << "ç¼–ç å¤±è´¥" << endl; 
 				}
 				else
 				{
-					cout << "hfmTreeÎÄ¼ş²»´æÔÚ£¬Çë³õÊ¼»¯"<<endl;
+					cout << "hfmTreeæ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·åˆå§‹åŒ–"<<endl;
 				}
 			}
 			else
 			{
 					if( huffmancoding(HT,n) ){
-						cout << "±àÂë³É¹¦" << endl;
+						cout << "ç¼–ç æˆåŠŸ" << endl;
 					}
 					else
-						cout << "±àÂëÊ§°Ü" << endl;
+						cout << "ç¼–ç å¤±è´¥" << endl;
 			}
 		}
 		else if(c=='D'){
 			system("cls");
 			if(Traslatecode(HT,n))
 			{
-				cout << "ÒëÂë³É¹¦" << endl;
+				cout << "è¯‘ç æˆåŠŸ" << endl;
 			}
 			else
 			{
-				cout << "ÒëÂëÊ§°Ü" << endl;
+				cout << "è¯‘ç å¤±è´¥" << endl;
 			}
 		}else if (c=='P')
 		{
@@ -337,27 +337,27 @@ int main(){
 			
 			if(printfile())
 			{
-				cout << "´òÓ¡³É¹¦!"<< endl;
+				cout << "æ‰“å°æˆåŠŸ!"<< endl;
 			}
 			else
 			{
-				cout << "´òÓ¡Ê§°Ü!" << endl;
+				cout << "æ‰“å°å¤±è´¥!" << endl;
 			}
 		}
 		else if(c=='T'){
 			system("cls");
 			if(Tree_printing(HT,n))
 			{
-				cout << "´òÓ¡³É¹¦£¡";
+				cout << "æ‰“å°æˆåŠŸï¼";
 			}
 			else
 			{
-				cout << "´òÓ¡Ê§°Ü£¬Ê÷Îª¿Õ!";
+				cout << "æ‰“å°å¤±è´¥ï¼Œæ ‘ä¸ºç©º!";
 			}
 		}
 		else{
 			system("cls");
-			cout << "ÊäÈë´íÎó£¬Çë¼ì²é´óĞ¡Ğ´"<<endl;
+			cout << "è¾“å…¥é”™è¯¯ï¼Œè¯·æ£€æŸ¥å¤§å°å†™"<<endl;
 		}
 		cout <<endl;
 		system("pause");

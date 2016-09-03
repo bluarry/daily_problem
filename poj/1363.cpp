@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <stack>
 #include <iostream>
-//#define LOCAL
+#define LOCAL
 using namespace std;
 const int maxn=1000+10;
 
@@ -17,7 +17,7 @@ int main()
 		{
 		for(int i=2;i<=n;i++)
 			cin >> target[i];
-			stack<int > s;
+		stack<int > s;
 		int A=1,B=1; 
 		int ok=1;
 		while(B<=n)
