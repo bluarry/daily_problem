@@ -1,0 +1,11 @@
+七、练习靶场
+
+基础训练靶场：http://basic.humensec.com
+
+注入靶场：http://sqli.humensec.com
+
+逆向靶场：http://re.humensec.com
+
+杂项靶场：http://misc.humensec.com
+
+密码靶场：http://crypto.humensec.com
