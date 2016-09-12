@@ -1,9 +1,10 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 
 struct inflateble{
-	char name[20];
+	string name;
 	float volume;
 	double price;
 };
