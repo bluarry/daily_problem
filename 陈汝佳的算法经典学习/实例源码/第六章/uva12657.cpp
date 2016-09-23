@@ -1,14 +1,19 @@
 #define LOCAL
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
+using namespace std;
 #define maxn 100000+5
 int n,left[maxn],right[maxn];
-void swap(int& a,int& b);
-void link(int L,int R);
+void link(int L,int R){
+	right[L]=R;
+	left[R]=L;
+}
 int main()
 {
 	#ifdef LOCAL
 	freopen("D:\\1.in","r",stdin);
+	freopen("D:\\1.out","w",stdout);
 	#endif
 	int m,kase=0;
 	while(scanf("%d%d",&n,&m)==2){
@@ -29,7 +34,7 @@ int main()
 				if(op==3 && right[Y]==X) swap(X,Y);  //若输入的结点开始的结点在第二结点的右边，直接交换就行
 				if(op!=3 && inv) op=3-op;  //若交换过，操作相反即可
 				if(op==1 && X==left[Y]) continue;
-				if(op==2 && Y==right[X]) continue;
+				if(op==2 && X==right[Y]) continue;
 
 
 				int LX=left[X],RX=right[X],LY=left[Y],RY=right[Y];
@@ -68,13 +73,6 @@ int main()
 	return 0;
 }
 
-
-void link(int L,int R){
-	right[L]=R;
-	left[R]=L;
-}
-void swap(int& a,int& b){
-	int tem=a;
-	a=b;
-	b=a;
-}
+/*
+<string>-v kext-dev-mode=1 rootless=0 darkwake=0 dart=0</string>
+*/
