@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -7,51 +8,78 @@
 using namespace std;
 int main()
 {
-	char tar[]="B(ehnxgz)B";
-	char ee;
-	stack<char> s;
-	queue<char> q;
+    cout << "请输入魔王的语言 : ";
+    //char tar[]="B(ehnxgz)B";
+    string tar;
+    cin >> tar;
+    char ee;
+    stack<char> s;
+    queue<char> q;
 
-	int len=strlen(tar);
-	for(int i=len-1;i>=0;--i)
-	{
-		s.push(tar[i]);
-	}
-	while(!s.empty())
-	{	
-		char tem=s.top();s.pop();
-		if(tem=='B')
-		{
-			cout << "tsaedsae";
-		}
-		else if(tem=='(')
-		{
-			/******************///***********这一段是把小写字母压入队列，并把他们取出来在压栈，在弹栈
-			ee=s.top();s.pop();
-			char x=ee;
-			while(1)
-			{
-				x=s.top();s.pop();
-				if(x==')') break;
-				q.push(x);
-			}
-			while(!q.empty())
-			{
-				char y=q.front();
-				q.pop();
-				s.push(y);
-			}
+    cout << "翻译为 : ";
+    int len=tar.length();
+    //把所有的字母倒着压栈
+    for(int i=len-1;i>=0;--i)
+    {
+        s.push(tar[i]);
+    }
+    while(!s.empty())
+    {
+        char tem=s.top();s.pop();
+        if(tem==')') 
+				continue;
+        if(tem=='B')    // 大写字母B处理
+        {
+            cout << "tsaedsae";
+        }
+        else if(tem=='A')//大写字母A处理
+        {
+                cout << "sae";
+        }
+        else if(tem=='(')   //遇到括号的处理
+        {
+            ee=s.top();//s.pop();
+            char x=ee;  //得到si‘ta
+            while(1)    //将括号里的字母入队
+            {
+                x=s.top();s.pop();
+                if(x==')') break;
+                q.push(x);
+            }
+            //出栈结束的标志入栈
+            s.push(')');
 
-			while(1)
-			{
-				char as=s.top();s.pop();
-				if(as=='B'){
-					cout << "tsaedsae";
-					break;
-				}
-				cout << ee << as ;
+            while(!q.empty()) //将队列里的元素顺序入栈
+            {
+                char y=q.front();
+                q.pop();
+                s.push(y);
+            }
+            char as='0';    //每个元素加si'ta，出栈
+            while(1)
+            {
+                as=s.top();s.pop();
+                if(as==')') break;
+                if(as=='B'){
+                    cout << ee << "tsaedsae";
+                }
+                else if (as=='A')
+                {
+                       cout <<ee <<"sae";
+                }
+                else
+                	if (ee!=as)
+                    cout << ee << as ;
+            		else
+            		cout << ee;
 			}
-		}
-	}
-	return 0;
+        }
+        else
+        {
+            cout << tem;
+        }
+    }
+    cout << endl;
+    return 0;
 }
+

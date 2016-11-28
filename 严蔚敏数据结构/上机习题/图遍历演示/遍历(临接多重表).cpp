@@ -8,10 +8,10 @@ using namespace std;
 
 #define STATUS int
 #define VertexType string
-
 //邻接多重表
 /*****存储结构********/
 #define MAX_VERTEX_NUM 40
+int XXX=0;
 typedef struct EBox{
     int ivex,jvex;
     struct EBox * ilink,*jlink;
@@ -26,6 +26,12 @@ typedef struct{
     VexBox adjmulist[MAX_VERTEX_NUM];
     int vexnum,edgenum;
 }AMLGraph;
+/*****************/
+typedef struct treeedge{
+    int a,b;
+}tredg;
+//编写一个存边的结构
+/********************/
 /***********************/
 //顺序表循环队列的实现
 
@@ -108,6 +114,10 @@ void visit_node(AMLGraph G,int v){
     cout << G.adjmulist[v].data << " ";
 }
 
+tredg eedge[100];
+int nnum=0;
+
+
 int getfirstedg(AMLGraph G,int v) //返回与v标号结点的连接的第一个结点位置
 {
     EBox *p=G.adjmulist[v].firstedg;
@@ -160,7 +170,12 @@ void dfs(AMLGraph G,int v) {
         visit_node(G,v);
         for(int w=getfirstedg(G,v); w >=0 ;w=getnexedg(G,v,w)){ //dfs遍历
             if(!visit[w])//w为每一个结点的下标
-            dfs(G,w);
+            {
+                eedge[nnum].a=v;
+                eedge[nnum].b=w;
+                nnum++;
+                dfs(G,w);
+            }
         }
 }
 
@@ -200,6 +215,9 @@ void bfstra(AMLGraph G){
                 for(w = getfirstedg(G,u); w >=0 ;w=getnexedg(G,u,w)){ //dfs遍历
                     if(!visit[w])//w为每一个结点的下标
                     {
+                        eedge[nnum].a=u;
+                        eedge[nnum].b=w;
+                        nnum++;
                          visit[w]=true;visit_node(G,w);
                         Equeue(Q,w);
                     }//if
@@ -218,6 +236,9 @@ void bfstra(AMLGraph G){
                 for(w = getfirstedg(G,u); w >=0 ;w=getnexedg(G,u,w)){ //dfs遍历
                     if(!visit[w])//w为每一个结点的下标
                     {
+                        eedge[nnum].a=u;
+                        eedge[nnum].b=w;
+                        nnum++;
                          visit[w]=true;visit_node(G,w);
                         Equeue(Q,w);
                     }//if
@@ -228,7 +249,10 @@ void bfstra(AMLGraph G){
 
 
 }//bfs
-
+void  printt(AMLGraph G, tredg x){
+    cout << G.adjmulist[x.a].data << " ";
+    cout << G.adjmulist[x.b].data <<endl;
+}
 int main()
 {
     freopen("./in","r",stdin);
@@ -240,10 +264,20 @@ int main()
         dfstra(G);
         cout <<endl;
 
-        cout << "接下来是bfs访问序列 :" << endl;
+        cout << "\nbfs生成树的边集为:\n";
+        for(int i=0;i<nnum;i++)
+            printt(G,eedge[i]);
+        nnum=0;
+
+
+
+        cout << "\n接下来是bfs访问序列 :" << endl;
         //bfs输出节点
         bfstra(G);
         cout << endl;
+        cout << "dfs生成树的边集为:\n";
+        for(int i=0;i<nnum;i++)
+            printt(G,eedge[i]);
 
     return 0;
 
