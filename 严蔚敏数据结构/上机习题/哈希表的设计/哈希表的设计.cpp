@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string.h>
 using namespace std;
-const long maxn=999999999;
+const long maxn=327673276;
 
 typedef struct datasrc
 {
@@ -12,7 +12,7 @@ typedef struct datasrc
     char* name;
 }datasrc;
 typedef struct hashtable{
-    long key;      //å­˜å½“å‰å“ˆå¸Œè¡¨æ‰€å­˜å…ƒç´ çš„keyå€¼
+    long key;      //´æµ±Ç°¹şÏ£±íËù´æÔªËØµÄkeyÖµ
     char *name;
     int asl;
 }hastable;
@@ -20,7 +20,7 @@ typedef struct hashtable{
 
 void init(datasrc* name)
 {
-    ifstream fin("in");
+    ifstream fin("in.txt");
     for(int i=0;i<30;i++)
     {
         name[i].name=new char[20];
@@ -41,29 +41,19 @@ void transkey(datasrc* name)
         name[i].key=sum;
     }
 
-//    cout << "/***********************å“ˆå¸Œè¡¨çš„keyå€¼ä¸º*********************/"<< endl;
+//    cout << "/***********************¹şÏ£±íµÄkeyÖµÎª*********************/"<< endl;
 //            for(int i=0;i<30;i++)
 //                cout << setw(35)<< name[i].key << endl;
 //     cout << "/*********************************************************/" << endl;
 
 }
 
-long long get_key(char *name)
-{
-    long long sum =1;
-        for(int j=0;name[j]!='\0';j++)
-        {
-            sum = (sum * toascii( name[j] ) ) % maxn;
-        }
-        return sum;
-}
-
  void start_hash(hashtable* H,datasrc* name)
  {
     for(int i=0;i<30;i++)
     {
-        int hs=name[i].key%47; //å“ˆå¸Œå‡½æ•°
-        int rehs=((name[i].key)%9009*3)%10+1; //ä¼ªéšæœºæ¢æµ‹åœ¨æ•£åˆ—
+        int hs=name[i].key%47; //¹şÏ£º¯Êı
+        int rehs=((name[i].key)%9009*3)%10+1; //Î±Ëæ»úÌ½²âÔÚÉ¢ÁĞ
         int sum =1;
         if(!H[hs].name)
         {
@@ -87,26 +77,39 @@ long long get_key(char *name)
     }//for
  }
 
+
+
+
+long long get_key(char *name)
+{
+    long long sum =1;
+        for(int j=0;name[j]!='\0';j++)
+        {
+            sum = (sum * toascii( name[j] ) ) % maxn;
+        }
+        return sum;
+}
+
  void find(hashtable *H)
  {
     char c=' ';
     while (c!='n' && c!='N') {
         char name[20];
-       cout << "è¾“å…¥æŸ¥è¯¢äººå‘˜çš„åå­—çš„æ‹¼éŸ³ : ";
+       cout << "ÊäÈë²éÑ¯ÈËÔ±µÄÃû×ÖµÄÆ´Òô : ";
        fflush(stdin);
        cin >> name;
-        long long key=get_key(name); //å¾—åˆ°keyçš„å“ˆå¸Œå€¼
+        long long key=get_key(name); //µÃµ½keyµÄ¹şÏ£Öµ
 
-        int hs=key%47; //å“ˆå¸Œå‡½æ•°
+        int hs=key%47; //¹şÏ£º¯Êı
         int hss=hs;
-        int rehs=(key%9009*3)%10+1; //ä¼ªéšæœºæ¢æµ‹åœ¨æ•£åˆ—
+        int rehs=(key%9009*3)%10+1; //Î±Ëæ»úÌ½²âÔÚÉ¢ÁĞ
 
 
         int x;
         int visit[50];
         memset(visit,0,sizeof(visit));
-        int i=0;//æ ‡å¿—ç€ç»“æŸ
-        while (H[hs].key!=key && i<30) //æœ€å¤šæ‰30å…ƒç´ 
+        int i=0;//±êÖ¾×Å½áÊø
+        while (H[hs].key!=key && i<30) //×î¶à²Å30ÔªËØ
         {
             x=(hs+rehs)%50;
             hs=x;
@@ -114,15 +117,15 @@ long long get_key(char *name)
         }
         if(H[hs].key==key)
         {
-            cout << "åˆå§‹å“ˆå¸Œä¸‹æ ‡ä¸º : " << hss << endl;
-            cout << "åœ¨å“ˆå¸Œçš„ä¸‹æ ‡ä¸º :" << hs << endl;
-            cout << "æŸ¥æ‰¾é•¿åº¦ä¸º ï¼š " << H[hs].asl << endl;
+            cout << "³õÊ¼¹şÏ£ÏÂ±êÎª : " << hss << endl;
+            cout << "ÔÚ¹şÏ£µÄÏÂ±êÎª :" << hs << endl;
+            cout << "²éÕÒ³¤¶ÈÎª £º " << H[hs].asl << endl;
         }
         else
-            cout << "æ­¤äººä¸å­˜åœ¨" << endl;
+            cout << "´ËÈË²»´æÔÚ" << endl;
 
-        cout  << "æ˜¯å¦ç»§ç»­æŸ¥è¯¢?(æ˜¯ : y/Y | å¦ : n/N) : ";
-        fflush(stdin);                              //æ¸…æ¥šé”®ç›˜ç¼“å†²åŒºçš„å­—ç¬¦ï¼Œé˜²æ­¢éæ³•è¾“å…¥å¼•èµ·çš„é”™è¯¯
+        cout  << "ÊÇ·ñ¼ÌĞø²éÑ¯?(ÊÇ : y/Y | ·ñ : n/N) : ";
+        fflush(stdin);                              //Çå³ş¼üÅÌ»º³åÇøµÄ×Ö·û£¬·ÀÖ¹·Ç·¨ÊäÈëÒıÆğµÄ´íÎó
         cin >> c;
         fflush(stdin);
     }
@@ -134,10 +137,10 @@ int main()
 {
     datasrc name[30];
     hashtable H[50];
-    init(name); //å°†æ•°æ®æ¥æºä»æ–‡ä»¶ä¸­è¾“å…¥
+    init(name); //½«Êı¾İÀ´Ô´´ÓÎÄ¼şÖĞÊäÈë
 
 
-    transkey(name); //æ ¹æ®åå­—å¾—åˆ°key
+    transkey(name); //¸ù¾İÃû×ÖµÃµ½key
 
     for(int i=0;i<50;i++)
     {
@@ -147,11 +150,11 @@ int main()
     }
 
 
-    start_hash(H,name);//å¼€å§‹hash
+    start_hash(H,name);//¿ªÊ¼hash
 
     double sum=0;
-    cout << "å“ˆå¸Œè¡¨å†…å®¹å¦‚ä¸‹ :"<< endl;
-    cout <<setw(15) <<"keyå€¼" << setw(15) <<"ä¸‹æ ‡"<<setw(25)<<"äººå" << setw(20) << "æŸ¥æ‰¾é•¿åº¦" << endl;
+    cout << "¹şÏ£±íÄÚÈİÈçÏÂ :"<< endl;
+    cout <<setw(15) <<"keyÖµ" << setw(10) <<"ÏÂ±ê"<<setw(25)<<"ÈËÃû" << setw(15) << "²éÕÒ³¤¶È" << endl;
 
         for(int i=0;i<50;i++)
         {
@@ -160,9 +163,10 @@ int main()
                 sum+=H[i].asl;
         }
 
-    cout << "å¹³å‡æŸ¥æ‰¾é•¿åº¦ä¸º " << sum/30.0 << endl;
+    cout << "Æ½¾ù²éÕÒ³¤¶ÈÎª " << sum/30.0 << endl;
 
     find(H);
     return 0;
 }
+
 
