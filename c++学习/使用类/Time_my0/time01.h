@@ -4,6 +4,8 @@
  * 此类旨在测试运算符重载
  */
 
+#include <iostream>
+using namespace  std;
 class Time
 {
 private:
@@ -20,6 +22,8 @@ public:
     Time operator- (const Time & t)const;
     Time operator* (double n)const;
     void Show()const;
+    //friend void operator<< (ostream &os,const Time & t);
+    friend ostream & operator<< (ostream &os,const Time & t);
 };
 
 #endif // TIME01_H

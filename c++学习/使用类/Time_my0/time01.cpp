@@ -1,5 +1,4 @@
 #include "time01.h"
-#include <iostream>
 
 
 Time::Time()
@@ -71,4 +70,9 @@ Time Time::operator* (double n)const
     Res.hours=Totaltime/60;
     Res.minutes=Totaltime%60;
     return Res;
+}
+ostream & operator<< (ostream &os,const Time & t)
+{
+    os << t.hours << "hours ," << t.minutes << "minutes";
+    return os;
 }
