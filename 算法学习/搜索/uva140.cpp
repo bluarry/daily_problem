@@ -1,3 +1,4 @@
+//向大神学习外加自己的理解
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -25,31 +26,40 @@ void dfs(int cur,int seq[])
     }
     for(int i=0;i<26;i++)   //枚举当前cur位填哪一个字母
     if(has[i])              //出现过
-    {
-        int ok=1;
-        for(int j=0;j<cur;j++)  //这是一个剪枝,减掉当前搜到的宽度大于当前答案的宽度的分支
+    {//下边的剪枝可以没有,照样可以ac
+      int ok=1;
+         for(int j=0;j<cur;j++)  //这是一个剪枝,减掉当前搜到的宽度大于当前答案的宽度的分支
             if(g[i][seq[j]])
                 if(cur-j > ans ) {ok=0;break;}
-                                //此处还应有一个剪枝 待添加!
                                 //如果搜到当前节点的时候理想情况是m,但是m > ans,则需要减掉
-                    /*  待添加 */
+        if(ok)
+        {
+            int xx=0,yy=0;
+            for(int k=0;k<26;k++)
+            {
+                if(k<i) yy++;
+                if(g[i][k]) xx++;
+            }
+            if(xx-yy>ans) {ok=0;}
+        }
         if(ok)
         {
             seq[cur]=i;
             has[i]=0;
-            dfs(i+1,seq);
+            dfs(cur+1,seq);
             has[i]=1;
-        }
+     }
     }
     return ;
 }
 int main()
 {
-    while(~scanf("%s",str ) && str[0]!='#')
+    while(scanf("%s",str )!=EOF && str[0]!='#')
     {
         int i=0;
         memset(g,0,sizeof(g));
         memset(has,0,sizeof(has));
+
         while(str[i]!='\0')         //将字符串拆开得到有用信息,并统计节点的个数
         {
             if(str[i] == ':')
@@ -64,6 +74,7 @@ int main()
                     i++;
                 }//while
             }//if
+            else i++;
         }//while
         num=0;
         for(int i=0;i<26;i++)if(has[i]) num++;
@@ -71,7 +82,7 @@ int main()
         ans=INF;
         int tem[10];
         dfs(0,tem);
-        for(int i=0;i<num;i++) printf("%c ",answer[i]+'A');
+        for(int i=0;i<num;i++) printf("%c ",'A'+answer[i]);
         printf("-> %d\n", ans);
     }
     return 0;
