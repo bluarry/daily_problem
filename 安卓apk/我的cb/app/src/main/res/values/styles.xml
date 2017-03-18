@@ -1,0 +1,46 @@
+<!-- res/values/styles.xml -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="AppTheme" parent="AppTheme.Base">
+
+    </style>
+    <!-- your theme inherits from the material theme -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item-->
+        <!-- theme customizations -->
+        <!-- customize the color palette -->
+        <item name="colorPrimary">@color/material_blue_500</item>
+        <item name="colorPrimaryDark">@color/material_blue_700</item>
+        <item name="colorAccent">@color/material_blue_200</item>
+        <!--item name="android:statusBarColor">@color/material_blue_700</item-->
+        <item name="android:textColorPrimary">@color/material_grey_700</item>
+        <!--item name="android:navigationBarColor">@color/material_blue_700</item-->
+        <item name="android:windowBackground">@color/material_white_1000</item>
+        <!-- this makes sure the action mode is painted over not above the action bar -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/material_blue_500</item>
+    </style>
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!--
+        Background for the search query section (e.g. EditText)
+        <item name="queryBackground">...</item>
+        Background for the actions section (e.g. voice, submit)
+        <item name="submitBackground">...</item>
+        Close button icon
+        <item name="closeIcon">...</item>
+        Search button icon
+        <item name="searchIcon">...</item>
+        Go/commit button icon
+        <item name="goIcon">...</item>
+        Voice search button icon
+        <item name="voiceIcon">...</item>
+        Commit icon shown in the query suggestion row
+        <item name="commitIcon">...</item>
+        Layout for query suggestion rows
+        <item name="suggestionRowLayout">...</item>
+            -->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+</resources>

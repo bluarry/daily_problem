@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.bluarry" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:name="com.app.bluarry.application.CarbonForumApplication"
+        android:hardwareAccelerated="true"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/mybackupscheme"
+        android:fullBackupOnly="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.app.bluarry.IndexActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.bluarry.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.bluarry.IndexActivity" />
+        </activity>
+        <activity
+            android:name="com.app.bluarry.TopicActivity"
+            android:label="@string/title_activity_topic"
+            android:parentActivityName="com.app.bluarry.IndexActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.bluarry.IndexActivity" />
+        </activity>
+        <activity
+            android:name="com.app.bluarry.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.app.bluarry.IndexActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.bluarry.IndexActivity" />
+        </activity>
+
+        <service
+            android:name="com.app.bluarry.service.PushService"
+            android:exported="false" >
+        </service>
+
+        <activity android:name="com.app.bluarry.ReplyActivity" >
+        </activity>
+
+        <service
+            android:name="com.app.bluarry.service.ReplyService"
+            android:exported="false" >
+        </service>
+
+        <activity
+            android:name="com.app.bluarry.NotificationsActivity"
+            android:label="@string/title_activity_notifications"
+            android:parentActivityName="com.app.bluarry.IndexActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.bluarry.IndexActivity" />
+        </activity>
+        <activity android:name="com.app.bluarry.NewActivity" >
+        </activity>
+        <activity
+            android:name="com.app.bluarry.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName="com.app.bluarry.IndexActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.app.bluarry.IndexActivity" />
+        </activity>
+
+        <service
+            android:name="com.app.bluarry.service.NewService"
+            android:exported="false"></service>
+    </application>
+
+</manifest>
