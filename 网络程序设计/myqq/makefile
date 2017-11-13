@@ -2,9 +2,9 @@ filename= server client
 all: $(filename)
 
 % : %.o
-	gcc -o $@ $<
+	gcc -o $@ $< -lsqlite3
 %.o : %.c
-	gcc -c $<
+	gcc -c $< -lsqlite3
 
 clean :
 	rm -rf *.o server client

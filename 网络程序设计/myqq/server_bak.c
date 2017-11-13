@@ -6,8 +6,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <arpa/inet.h>
-#include <sqlite3.h>
-
 #define NOTREGISTED 999996
 #define  LOGIN  999998
 #define  LOGOUT 999997
@@ -36,7 +34,6 @@ int MSG_size;
 
 int regist(MSG*);
 int check_password(MSG*);
-void init_sql();
 int  main(int argc, char const *argv[]) {
     if(argc != 2){
 		fprintf(stderr, "Usage: %s [portnumber](server port)\n", argv[0]);
@@ -74,7 +71,6 @@ int  main(int argc, char const *argv[]) {
 
     struct sockaddr_in client_addr;
     socklen_t lenn=sizeof(client_addr);
-	init_sql();
     while(1)
     {
         ssize_t size=recvfrom(sev_fd,&msg,sizeof(msg),0,
@@ -115,118 +111,61 @@ int  main(int argc, char const *argv[]) {
     }
     return 0;
 }
-/*************************************函数实现***************************************************************/
-void init_sql(){
-	sqlite3 *db;
-	//打开数据库
-	int rc=sqlite3_open("users.db",&db);
-	if(rc!=SQLITE_OK){
-		ERR_EXIT(sqlite3_errmsg(db));
-		sqlite3_close(db);
-		exit(1);
-	}
-
-	char* sql_check="SELECT * FROM USERDATA;";
-
-	char* check_err=NULL;
-	rc=sqlite3_exec(db,sql_check,NULL,NULL,&check_err);
-	if(rc!=SQLITE_OK){
-		char* creat_sql="CREATE TABLE USERDATA("\
-						"name TEXT NO NULL UNIQUE,"\
-						"password TEXT NOT NULL,"\
-						"ip TEXT,"\
-						"port INT CHECK(port>0),"\
-						"status INT CHECK(status >= 999995 AND status <=999998));";
-		char* creat_err=NULL;
-		rc=sqlite3_exec(db,creat_sql,NULL,NULL,&creat_err);
-		if(rc!=SQLITE_OK)
+int check(MSG *msg)		//判断用户名是否已经注册
+{
+	FILE *fp=fopen("userdata.dat","a+");
+	char buff[100];
+	char name[40];
+	while(!feof(fp))
+	{
+		fscanf(fp,"%s ",name);
+		for(int i=0;i<=3;i++)
+			i!=2?fscanf(fp,"%s ",buff):fscanf(fp,"%s",buff);
+		if(strcmp(name,msg->name)==0)
 		{
-			ERR_EXIT(creat_err);
-			sqlite3_free(creat_err);
-			sqlite3_close(db);
-			printf("初始化失败\n");
-			exit(1);
-		}
-	}
-}
-int regist(MSG* msg)
-{
-	sqlite3 *db;
-	//打开数据库
-	int rc=sqlite3_open("users.db",&db);
-	if(rc!=SQLITE_OK){
-		ERR_EXIT(sqlite3_errmsg(db));
-		sqlite3_close(db);
-		return 0;
-	}
-	sqlite3_stmt* stmt;
-	char* insert_sql="INSERT INTO USERDATA VALUES(?,?,?,?,?);";
-	sqlite3_prepare_v2(db,insert_sql,-1,&stmt,NULL);
-
-	msg->status=NOTLOGIN;
-	sqlite3_bind_text(stmt,1,msg->name,strlen(msg->name),NULL);
-	sqlite3_bind_text(stmt,2,msg->password,strlen(msg->password),NULL);
-	sqlite3_bind_text(stmt,3,inet_ntoa(msg->addr.sin_addr),strlen(inet_ntoa(msg->addr.sin_addr)),NULL);
-	sqlite3_bind_int(stmt,4,ntohs(msg->addr.sin_port));
-	sqlite3_bind_int(stmt,5,msg->status);
-
-	rc=sqlite3_step(stmt);
-
-	sqlite3_finalize(stmt);
-	sqlite3_close(db);
-
-
-	if(rc==SQLITE_DONE){
-		return 1;
-	}
-	//判断是否插入成功
-	return 0;
-}
-int check_password(MSG* msg) //登录使用的
-{
-	sqlite3* db;
-	int rc=sqlite3_open("users.db",&db);
-	if(rc!=SQLITE_OK){
-		ERR_EXIT(sqlite3_errmsg(db));
-		sqlite3_close(db);
-		return 0;
-	}
-	sqlite3_stmt* stmt;
-	char* getpass="SELECT password FROM USERDATA WHERE name=?;";
-	rc=sqlite3_prepare_v2(db,getpass,-1,&stmt,NULL);
-	if(rc!=SQLITE_OK){
-		ERR_EXIT(sqlite3_errmsg(db));
-		sqlite3_close(db);
-		return 0;
-	}
-	sqlite3_bind_text(stmt,1,msg->name,strlen(msg->name),NULL);
-	rc=sqlite3_step(stmt);
-	const char* pass=sqlite3_column_text(stmt,0);
-	if(pass==NULL){
-		sqlite3_finalize(stmt);
-		sqlite3_close(db);
-		return 0;
-	}
-	fprintf(stdout,"%s\n",pass);
-	sqlite3_finalize(stmt);
-	if(rc==SQLITE_ROW){
-		sqlite3_stmt* stmts;
-		char* up_status="UPDATE USERDATA SET status=? WHERE name=?;";
-		rc=sqlite3_prepare_v2(db,up_status,-1,&stmts,NULL);
-		sqlite3_bind_int(stmts,1,LOGIN);
-		sqlite3_bind_text(stmts,2,msg->name,strlen(msg->name),NULL);
-		rc=sqlite3_step(stmts);
-		sqlite3_finalize(stmts);
-		fprintf(stdout, "rc = %d\n",rc );
-		if(rc==SQLITE_DONE){
-			sqlite3_close(db);
-			return 1;
-		}else{
-			sqlite3_close(db);
 			return 0;
 		}
 	}
-	sqlite3_close(db);
-	return 0;
+	return 1;
+}
+int regist(MSG* msg)
+{
+	FILE *fp=fopen("userdata.dat","a+");
+	if(fp==NULL) return 0;
 
+	if(check(msg))
+	{
+		msg->status=NOTLOGIN;
+		fprintf(fp, "%s %s %s %d %d\n",msg->name,msg->password,
+		inet_ntoa(msg->addr.sin_addr),ntohs(msg->addr.sin_port),msg->status );
+		fclose(fp);
+		return 1;
+	}
+		return 0;
+}
+int check_password(MSG* msg) //登录使用的
+{
+		FILE *fp=fopen("userdata.dat","rw+");
+
+		if(fp==NULL) return 0;
+
+
+		char name[40],password[10],buff[40];
+		while(!feof(fp)){
+		fscanf(fp,"%s %s ",name,password);
+
+		char c='\0';
+		while(c!='\n'&& !feof(fp))
+			fscanf(fp,"%c",c);
+
+		if(0==strcmp(name,msg->name)&& 0==strcmp(password,msg->password))
+		{
+			msg->status=LOGIN;
+			fprintf(fp, "%d\n",LOGIN);
+			fclose(fp);
+			return 1;
+		}
+	}
+	fclose(fp);
+	return 0;
 }
