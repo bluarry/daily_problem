@@ -21,6 +21,8 @@ private slots:
 
     void on_exit_btn_clicked();
 
+    void on_regist_btn_clicked();
+
 private:
     Ui::LoginWindow *ui;
 };
