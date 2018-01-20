@@ -1,0 +1,68 @@
+#include "filetransender.h"
+#include "ui_filetransender.h"
+#include "client.h"
+#include <QByteArray>
+#include <QString>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+filetransender::filetransender(QWidget *parent,int lfd,QString xfilepath) :
+    QDialog(parent),
+    fd(lfd),
+    filepath(xfilepath),
+    ui(new Ui::filetransender)
+{
+    ui->setupUi(this);
+    //中端与否
+    CTN=true;
+
+    //初始化文件指针
+    QByteArray uba = filepath.toLatin1();
+    char* filpathename=uba.data();
+    this->fp=fopen(filpathename,"rb+");
+
+    //初始化文件大小
+    fseek(fp, 0, SEEK_END);// 指定到文件尾
+    flen = ftell(fp);//获取文件长度
+    fseek(fp, 0, SEEK_SET);//指定到文件头
+    //已发送大小
+    sendsize=0;
+    //界面初始化
+    ui->transinfo->setText(tr("Wait for Reciver Ready"));
+    ui->progressBar->setMaximum(flen);
+    ui->progressBar->setValue(sendsize);
+
+    MYSG mymsg;
+    memset(&mymsg,0,sizeof(mymsg));
+    read(fd,&mymsg,sizeof(mymsg));
+
+    if(mymsg.type==6){//接受端就绪
+        ui->transinfo->setText(tr("Reciver Ready!"));
+        mymsg.type=flen;
+        write(fd,&mymsg,sizeof(mymsg));
+    }
+}
+int filetransender::min(int a,int b){
+    return a>b?b:a;
+}
+filetransender::~filetransender()
+{
+    delete ui;
+    fclose(fp);
+}
+
+void filetransender::on_filetransstart_clicked()
+{
+    MYSG mysg;
+    while(!feof(fp) && CTN){
+        memset(&mysg,0,sizeof(mysg));
+        fread(mysg.message,1,1,fp);
+        write(fd,&mysg,sizeof(mysg));
+        sendsize+=1*sizeof(char);
+        qDebug() << sendsize << flen;
+        ui->progressBar->setValue(sendsize);
+    }
+    qDebug() << "trans finished";
+}
+

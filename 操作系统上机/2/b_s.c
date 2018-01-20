@@ -43,7 +43,7 @@ int main()
 {
 	key_t key=ftok(".",'a');
 	sem_t S1=Creatsem(key,0);
-	key_t key2=ftok(".",'b');
+	key_t key2=ftok("/",'b');
 	sem_t S2=Creatsem(key2,0);
 
 	pid_t pid=fork();
